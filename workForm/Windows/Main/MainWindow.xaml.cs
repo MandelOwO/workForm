@@ -20,16 +20,34 @@ namespace workForm
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        MyContext context = new MyContext();    
+        Tables.User CurrentUser { get; set; }
+
+        public MainWindow(Tables.User u)
         {
             InitializeComponent();
+            CurrentUser = u;
+            lab_user.Content = u.Name;
 
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Windows.Login.WinLogin winLogin = new Windows.Login.WinLogin();
-            winLogin.CloseWindow();
+            LoadProjects(CurrentUser);
+            
+        }
+
+        public void LoadProjects(Tables.User usr)
+        {
+           // List<Tables.Project> projects = new List<Tables.Project>();
+           // IQueryable<Tables.Project> rtn = context.tbProjects.Where(x => x.idUser == usr.IDuser).AsQueryable<Tables.Project>().ToList();
+
+            var projects = context.tbProjects.Where(u => u.idUser == usr.IDuser).AsQueryable().ToList<Tables.Project>();
+
+            foreach (var project in projects)
+            {
+                cb_projectsList.Items.Add(project.Name);
+            }
         }
     }
 }

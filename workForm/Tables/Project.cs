@@ -10,7 +10,7 @@ namespace workForm.Tables
     public class Project
     {
         [Key]
-        public int IDprojct { get; set; }
+        public int IDproject { get; set; }
         public string Name { get; set; }
         public int Rate { get; set; }
         public int idCustomer { get; set; }

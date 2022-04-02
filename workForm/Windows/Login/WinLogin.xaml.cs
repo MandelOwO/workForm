@@ -52,7 +52,7 @@ namespace workForm.Windows.Login
             {
                 if (usernameInput == usr.Username && passwordInput == usr.Password)
                 {
-                    MainWindow w = new MainWindow();
+                    MainWindow w = new MainWindow(usr);
                     w.Show();
                     this.Close();
                 }

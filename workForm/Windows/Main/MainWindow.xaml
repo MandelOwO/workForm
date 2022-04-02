@@ -6,5 +6,12 @@
         xmlns:local="clr-namespace:workForm"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
-    <Grid/>
+    <Grid>
+        <Label Content="Welcome" Height="35"  Width="90"  FontSize="18" VerticalAlignment="Top" Margin="0,20,0,0" />
+        <Label x:Name="lab_user" Content="" Height="35"  Width="300"  FontSize="18" VerticalAlignment="Top" Margin="445,20,55,0" />
+        <Frame x:Name="Frame1" Height="350" Width="650" HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderBrush="Gray" BorderThickness="1"/>
+        <ComboBox x:Name="cb_projectsList" Width="250" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,35,0,0"/>
+        <Label Content="Project: " Height="25" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" />
+        <Button Content="Create project" Height="25" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,70,0,0"/>
+    </Grid>
 </Window>
