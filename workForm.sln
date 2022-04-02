@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "workForm", "workForm\workForm.csproj", "{C37DF5D6-73AF-4006-B747-BA984099714B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C37DF5D6-73AF-4006-B747-BA984099714B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C37DF5D6-73AF-4006-B747-BA984099714B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C37DF5D6-73AF-4006-B747-BA984099714B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C37DF5D6-73AF-4006-B747-BA984099714B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D4FA444B-60C3-4145-BC7B-5DD258606A63}
+	EndGlobalSection
+EndGlobal
