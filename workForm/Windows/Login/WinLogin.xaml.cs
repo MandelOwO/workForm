@@ -19,6 +19,9 @@ namespace workForm.Windows.Login
     /// </summary>
     public partial class WinLogin : Window
     {
+        
+        MyContext context = new MyContext();
+
         public WinLogin()
         {
             InitializeComponent();
@@ -26,12 +29,38 @@ namespace workForm.Windows.Login
 
         private void btn_cancel_Click(object sender, RoutedEventArgs e)
         {
+
+            CloseWindow();
+        }
+
+        public void CloseWindow()
+        {
+
             this.Close();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void btn_login_Click(object sender, RoutedEventArgs e)
         {
-            Main.Content = new PgLogin();
+            lab_incorrect.Content = "";
+            string usernameInput = this.tb_username.Text;
+            string passwordInput = this.tb_password.Text;
+
+            var usr = context.tbUsers.SingleOrDefault(u => u.Username == usernameInput);
+            var pass = context.tbUsers.SingleOrDefault(p => p.Password == passwordInput);
+
+            if (usr != null && pass != null)
+            {
+                if (usernameInput == usr.Username && passwordInput == usr.Password)
+                {
+                    MainWindow w = new MainWindow();
+                    w.Show();
+                    this.Close();
+                }
+            }
+            else
+            {
+                lab_incorrect.Content = "Please check your login information.";
+            }
         }
     }
 }

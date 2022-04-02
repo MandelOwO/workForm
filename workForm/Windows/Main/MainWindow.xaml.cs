@@ -13,16 +13,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace workForm.Windows.Login
+namespace workForm
 {
     /// <summary>
-    /// Interaction logic for PgLogin.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class PgLogin : Page
+    public partial class MainWindow : Window
     {
-        public PgLogin()
+        public MainWindow()
         {
             InitializeComponent();
+
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Windows.Login.WinLogin winLogin = new Windows.Login.WinLogin();
+            winLogin.CloseWindow();
         }
     }
 }
