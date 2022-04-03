@@ -15,5 +15,6 @@
         <Label x:Name="lab_customer" Content="" Height="25" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="75,70,0,0"/>
         <Label Content="Customer:" Height="25" Width="65" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,70,0,0"/>
         <Button x:Name="btn_customerDetails" Content="See details" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,100,0,0" Click="btn_customerDetails_Click"/>
+        <DataGrid x:Name="dg_works"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="500" Height="240" Margin="0,0,10,10"/>
     </Grid>
 </Page>

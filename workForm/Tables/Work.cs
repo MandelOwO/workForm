@@ -11,10 +11,11 @@ namespace workForm.Tables
     {
         [Key]
         public int IDwork { get; set; }
-        public string Name { get; set; }
+        public string Descripton { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public int idProject { get; set; }
+        public bool Completed { get; set; }
 
 
     }

@@ -15,6 +15,7 @@ namespace workForm.Tables
         public int Rate { get; set; }
         public int idCustomer { get; set; }
         public int idUser { get; set; }
+        public bool Completed { get; set; }
 
     }
 }
