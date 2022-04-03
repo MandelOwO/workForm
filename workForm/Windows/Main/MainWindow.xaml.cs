@@ -39,15 +39,29 @@ namespace workForm
 
         public void LoadProjects(Tables.User usr)
         {
-           // List<Tables.Project> projects = new List<Tables.Project>();
-           // IQueryable<Tables.Project> rtn = context.tbProjects.Where(x => x.idUser == usr.IDuser).AsQueryable<Tables.Project>().ToList();
-
+         
             var projects = context.tbProjects.Where(u => u.idUser == usr.IDuser).AsQueryable().ToList<Tables.Project>();
+            
 
-            foreach (var project in projects)
-            {
-                cb_projectsList.Items.Add(project.Name);
-            }
+            cb_projectsList.ItemsSource = projects;
+            cb_projectsList.DisplayMemberPath = "Name";
+            cb_projectsList.SelectedValue = "IDproject";
+
+            
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Tables.Project p = cb_projectsList.SelectedItem as Tables.Project;
+            Frame1.Content = new Windows.Main.pgProjectDetail(p);
+            
+        }
+
+        private void btn_logOut_Click(object sender, RoutedEventArgs e)
+        {
+            Windows.Login.WinLogin w = new Windows.Login.WinLogin();
+            w.Show();
+            this.Close();
         }
     }
 }
