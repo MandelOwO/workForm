@@ -21,19 +21,22 @@ namespace workForm.Windows.Main
     /// </summary>
     public partial class pgProjectDetail : Page
     {
-        MyContext context = new MyContext();
 
+        MyContext context = new MyContext();
         public Tables.Project selProject { get; set; }
         public Tables.Customer selCustomer { get; set; }
+        public Windows.Main.pgDatagrid pageDatagrid { get; set; } 
+
         //   public dataBindings.WorksDataModel Model { get; set; }
 
-        public DataTable listSource { get; set; }
+
 
         public pgProjectDetail(Tables.Project p)
         {
             InitializeComponent();
-            selProject = p; 
-           // Model = new dataBindings.WorksDataModel(selProject);
+            selProject = p;
+            // Model = new dataBindings.WorksDataModel(selProject);
+            pageDatagrid = new Windows.Main.pgDatagrid(selProject);
 
         }
 
@@ -43,10 +46,11 @@ namespace workForm.Windows.Main
             lab_projectName.Content = selProject.Name;
             lab_rate.Content = selProject.Rate;
             lab_customer.Content = selCustomer.Name;
-            FillData();
-            dg_works.ItemsSource = listSource.DefaultView;
 
+            frame1.Content = pageDatagrid;
         }
+
+
 
         public Tables.Customer FindCustomer(Tables.Project project)
         {
@@ -60,10 +64,6 @@ namespace workForm.Windows.Main
             MessageBox.Show(customerInfo);
         }
 
-        public void FillData()
-        {
-            var data = context.tbWorks.Where(w => w.idProject == selProject.IDproject).ToList();
-            listSource = tools.DataLoader.ToDataTable(data);
-        }
+
     }
 }

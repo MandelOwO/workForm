@@ -34,7 +34,6 @@ namespace workForm
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             LoadProjects(CurrentUser);
-            
         }
 
         public void LoadProjects(Tables.User usr)
@@ -50,18 +49,18 @@ namespace workForm
             
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Tables.Project p = cb_projectsList.SelectedItem as Tables.Project;
-            Frame1.Content = new Windows.Main.pgProjectDetail(p);
-            
-        }
 
         private void btn_logOut_Click(object sender, RoutedEventArgs e)
         {
             Windows.Login.WinLogin w = new Windows.Login.WinLogin();
             w.Show();
             this.Close();
+        }
+
+        private void cb_projectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Tables.Project p = cb_projectsList.SelectedItem as Tables.Project;
+            Frame1.Content = new Windows.Main.pgProjectDetail(p);
         }
     }
 }

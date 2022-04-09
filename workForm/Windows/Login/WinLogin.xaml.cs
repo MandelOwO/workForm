@@ -43,7 +43,7 @@ namespace workForm.Windows.Login
         {
             lab_incorrect.Content = "";
             string usernameInput = this.tb_username.Text;
-            string passwordInput = this.tb_password.Text;
+            string passwordInput = this.tb_password.Password;
 
             var usr = context.tbUsers.SingleOrDefault(u => u.Username == usernameInput);
             var pass = context.tbUsers.SingleOrDefault(p => p.Password == passwordInput);
