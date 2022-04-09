@@ -64,6 +64,17 @@ namespace workForm.Windows.Main
             MessageBox.Show(customerInfo);
         }
 
+        private void btn_addWork_Click(object sender, RoutedEventArgs e)
+        {
+            Windows.Main.pgEditWork pg = new Windows.Main.pgEditWork(selProject, new Tables.Work());
+            frame1.Content = pg;
+        }
 
+        public void DisableButtons()
+        {
+            btn_addWork.IsEnabled = false;
+            btn_ediWtork.IsEnabled = false;
+            btn_deleteWork.IsEnabled = false;
+        }
     }
 }

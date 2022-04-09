@@ -5,10 +5,37 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:workForm.Windows.Main"
       mc:Ignorable="d" 
-                  Height="350" Width="650"
-      Title="pgEditWork">
+      Width="500" Height="300"
+      Title="pgEditWork" Loaded="Page_Loaded">
 
     <Grid>
-        <Label x:Name="lab_workName" Content="'WorkName'" Height="35" Width="630" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,9,0,0" FontSize="16"/>
-    </Grid>
+        <StackPanel>
+            <TextBox x:Name="tbName" TextWrapping="Wrap" Text="" Width="480" HorizontalAlignment="Left" FontSize="20"/>
+            <Grid VerticalAlignment="Top" Margin="0,20,0,0" Height="110" Panel.ZIndex="-1"  >
+                <RadioButton x:Name="rbManual" Content="Manual time" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0" GroupName="Mode" IsChecked="{Binding Path=ModeArray[0], Mode=TwoWay}" Checked="rbManual_Checked"/>
+                <Grid Width="250" HorizontalAlignment="Left">
+                    <Label Content="Start" Margin="0,20,0,0" Width="100" FontSize="16" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <DatePicker x:Name="dtpStart" HorizontalAlignment="Left" VerticalAlignment="Center" FirstDayOfWeek="Monday" Width="100" Margin="110,10,0,0"/>
+                    <ComboBox x:Name="cbStart" Height="22" Width="100" HorizontalAlignment="Left" Margin="0,10,0,0" IsEditable="True"/>
+                </Grid>
+                <Grid Width="250" HorizontalAlignment="Right">
+                    <Label Content="End" Margin="0,20,0,0" Width="100" FontSize="16" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <DatePicker x:Name="dtpEnd" HorizontalAlignment="Left" VerticalAlignment="Center" FirstDayOfWeek="Monday" Width="100" Margin="110,10,0,0"/>
+                    <ComboBox x:Name="cbEnd" Height="22" Width="100" HorizontalAlignment="Left" Margin="0,10,0,0" IsEditable="True"/>
+                </Grid>
+            </Grid>
+            <Grid Height="90" VerticalAlignment="Bottom" >
+                <RadioButton Content="Automaitc time" x:Name="rbAuto" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0" GroupName="Mode" IsChecked="{Binding Path=ModeArray[1], Mode=TwoWay}"/>
+            </Grid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,20,0" VerticalAlignment="Bottom">
+                <Button x:Name="btnCancel" Content="Cancel" Margin="0,0,20,0" Width="45"/>
+                <Button x:Name="btnOk" Content="OK" Width="45" Click="btnOk_Click"/>
+  
+            </StackPanel>
+        </StackPanel>
+
+
+
+
+    </Grid>    
 </Page>

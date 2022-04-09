@@ -40,7 +40,6 @@ namespace workForm
         {
          
             var projects = context.tbProjects.Where(u => u.idUser == usr.IDuser).AsQueryable().ToList<Tables.Project>();
-            
 
             cb_projectsList.ItemsSource = projects;
             cb_projectsList.DisplayMemberPath = "Name";
@@ -61,6 +60,7 @@ namespace workForm
         {
             Tables.Project p = cb_projectsList.SelectedItem as Tables.Project;
             Frame1.Content = new Windows.Main.pgProjectDetail(p);
+
         }
     }
 }
