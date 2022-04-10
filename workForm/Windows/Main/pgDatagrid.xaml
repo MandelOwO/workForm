@@ -9,6 +9,6 @@
       Title="pgDatagrid">
 
     <Grid Loaded="Grid_Loaded">
-        <DataGrid x:Name="dg_works"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="400" Height="230" Margin="0,0,10,10" IsReadOnly="True" Grid.Column="1"/>
+        <DataGrid x:Name="dg_works"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="400" Height="230" Margin="0,0,10,10" IsReadOnly="True" Grid.Column="1" SelectionChanged="dg_works_SelectionChanged"/>
     </Grid>
 </Page>

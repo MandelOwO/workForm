@@ -68,13 +68,30 @@ namespace workForm.Windows.Main
         {
             Windows.Main.pgEditWork pg = new Windows.Main.pgEditWork(selProject, new Tables.Work());
             frame1.Content = pg;
-        }
 
+           // DisableButtons();       //  <-- JE POTŘEBA DOŘEŠIT
+        }
+        private void btn_ediWtork_Click(object sender, RoutedEventArgs e)
+        {
+            var w = (pageDatagrid).dg_works.SelectedItem as Tables.Work;
+
+            Windows.Main.pgEditWork pg = new Windows.Main.pgEditWork(selProject, w);
+            frame1.Content = pg;
+        }
         public void DisableButtons()
         {
             btn_addWork.IsEnabled = false;
             btn_ediWtork.IsEnabled = false;
             btn_deleteWork.IsEnabled = false;
         }
+        
+        public void EnableButtons()
+        {
+            btn_addWork.IsEnabled = true;
+            btn_ediWtork.IsEnabled = true;
+            btn_deleteWork.IsEnabled = true;
+        }
+
+
     }
 }

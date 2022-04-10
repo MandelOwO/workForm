@@ -44,10 +44,21 @@ namespace workForm.Windows.Login
             lab_incorrect.Content = "";
             string usernameInput = this.tb_username.Text;
             string passwordInput = this.tb_password.Password;
+            var usr = new Tables.User();
+            var pass = new Tables.User();
+         
+            try
+            {
+                usr = context.tbUsers.SingleOrDefault(u => u.Username == usernameInput) as Tables.User;
+                pass = context.tbUsers.SingleOrDefault(p => p.Password == passwordInput) as Tables.User;
 
-            var usr = context.tbUsers.SingleOrDefault(u => u.Username == usernameInput);
-            var pass = context.tbUsers.SingleOrDefault(p => p.Password == passwordInput);
-
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Can not connect to the database\nError:\n"+ex.Message);
+                
+            }
+          
             if (usr != null && pass != null)
             {
                 if (usernameInput == usr.Username && passwordInput == usr.Password)

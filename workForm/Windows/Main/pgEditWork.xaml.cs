@@ -20,22 +20,25 @@ namespace workForm.Windows.Main
     /// </summary>
     public partial class pgEditWork : Page
     {
-        MyContext context = new MyContext();
-        Tables.Project selProject = new Tables.Project();
-        Tables.Work Work = new Tables.Work();   
-        
+           public MyContext context { get; set; } = new MyContext();
+           public Tables.Project selProject { get; set; } = new Tables.Project();
+           public Tables.Work Work { get; set; } = new Tables.Work();
+        public pgProjectDetail NamingContainer { get; private set; }
 
         public pgEditWork(Tables.Project p, Tables.Work w)
         {
             InitializeComponent();
             selProject = p;
-            Work.idProject = selProject.IDproject;
 
+            Work.idProject = selProject.IDproject;
             Work = w;
+
+
+
         }
         private void lodaWorkData()
         {
-
+            tbName.Text = Work.Descripton;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -104,13 +107,24 @@ namespace workForm.Windows.Main
             Work.Descripton = tbName.Text;
             Work.Start = getTime(cbStart, dtpStart);
             Work.End = getTime(cbEnd, dtpEnd);
+            Work.idProject = selProject.IDproject;
 
             context.tbWorks.Add(Work);
             context.SaveChanges();
-            
+            ClosePage();
+
+
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ClosePage();
+        }
+        
+        public void ClosePage()
+        {
             pgDatagrid secPage = new pgDatagrid(selProject);
             NavigationService.Navigate(secPage);
-
         }
     }
 }

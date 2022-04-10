@@ -25,6 +25,7 @@ namespace workForm.Windows.Main
         MyContext context = new MyContext();
         public Windows.Main.pgProjectDetail pageProjectDetail { get; set; }
         public Tables.Project selProject { get; set; }
+        public Tables.Work selWork { get; set; }
 
         public pgDatagrid(Tables.Project p )
         {
@@ -47,6 +48,17 @@ namespace workForm.Windows.Main
         {
             var data = context.tbWorks.Where(w => w.idProject == selProject.IDproject).ToList();
             listSource = tools.DataLoader.ToDataTable(data);
+        }
+
+        private void dg_works_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //var row = (Tables.Work)dg_works.SelectedItem;
+
+            DataRowView r = dg_works.SelectedItem as DataRowView;
+            int workid = Convert.ToInt32(r.Row.ItemArray[0].ToString());
+
+            selWork = context.tbWorks.SingleOrDefault(x => x.IDwork == workid);
+            
         }
     }
 }
