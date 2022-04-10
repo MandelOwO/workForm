@@ -25,7 +25,7 @@ namespace workForm.Windows.Main
         MyContext context = new MyContext();
         public Tables.Project selProject { get; set; }
         public Tables.Customer selCustomer { get; set; }
-        public Windows.Main.pgDatagrid pageDatagrid { get; set; } 
+        public Windows.Main.pgDatagrid pageDatagrid { get; set; }
 
         //   public dataBindings.WorksDataModel Model { get; set; }
 
@@ -55,7 +55,7 @@ namespace workForm.Windows.Main
         public Tables.Customer FindCustomer(Tables.Project project)
         {
             var cust = context.tbCustomers.SingleOrDefault(c => c.IDcustomer == project.idCustomer);
-            return cust; 
+            return cust;
         }
 
         private void btn_customerDetails_Click(object sender, RoutedEventArgs e)
@@ -69,14 +69,19 @@ namespace workForm.Windows.Main
             Windows.Main.pgEditWork pg = new Windows.Main.pgEditWork(selProject, new Tables.Work());
             frame1.Content = pg;
 
-           // DisableButtons();       //  <-- JE POTŘEBA DOŘEŠIT
+            // DisableButtons();       //  <-- JE POTŘEBA DOŘEŠIT
         }
         private void btn_ediWtork_Click(object sender, RoutedEventArgs e)
         {
-            var w = (pageDatagrid).dg_works.SelectedItem as Tables.Work;
+            Windows.Main.pgEditWork pg;
+            try
+            {
+                pg = new Windows.Main.pgEditWork(selProject, pageDatagrid.SelWork);
+                frame1.Content = pg;
+            }
+            catch (Exception) { }
 
-            Windows.Main.pgEditWork pg = new Windows.Main.pgEditWork(selProject, w);
-            frame1.Content = pg;
+
         }
         public void DisableButtons()
         {
@@ -84,7 +89,7 @@ namespace workForm.Windows.Main
             btn_ediWtork.IsEnabled = false;
             btn_deleteWork.IsEnabled = false;
         }
-        
+
         public void EnableButtons()
         {
             btn_addWork.IsEnabled = true;
@@ -92,6 +97,14 @@ namespace workForm.Windows.Main
             btn_deleteWork.IsEnabled = true;
         }
 
-
+        private void btn_deleteWork_Click(object sender, RoutedEventArgs e)
+        {
+            var w = context.tbWorks.SingleOrDefault(x => x.IDwork == pageDatagrid.SelWork.IDwork);
+            if (w != null)
+                context.tbWorks.Remove(w);
+            context.SaveChanges();
+            pageDatagrid = new Windows.Main.pgDatagrid(selProject);
+            frame1.Content = pageDatagrid;
+        }
     }
 }

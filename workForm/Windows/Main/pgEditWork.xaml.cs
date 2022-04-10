@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,11 @@ namespace workForm.Windows.Main
         public Tables.Project selProject { get; set; } = new Tables.Project();
         public Tables.Work Work { get; set; } = new Tables.Work();
         public pgProjectDetail NamingContainer { get; private set; }
+        private bool automaticTimerStarted;
+        private bool editing = false;
+        private DateTime autoStartingTime;
+        private DateTime autoEndingTime;
+
 
         public pgEditWork(Tables.Project p, Tables.Work w)
         {
@@ -34,11 +40,33 @@ namespace workForm.Windows.Main
             Work.idProject = selProject.IDproject;
             Work = w;
 
+            lodaWorkData();
 
         }
         private void lodaWorkData()
         {
-            tbName.Text = Work.Descripton;
+            try
+            {
+                tbName.Text = Work.Descripton;
+                if (Work.Completed)
+                {
+                    chkCompleted.IsChecked = true;
+                }
+                dtpStart.Text = Work.Start.ToString().Substring(0, 10);
+                cbStart.Text = Work.Start.ToString().Substring(11, 5);
+                dtpEnd.Text = Work.End.ToString().Substring(0, 10);
+                cbEnd.Text = Work.End.ToString().Substring(11, 5);
+                rbManual.IsChecked = true;
+                if (Work.Descripton != null)
+                {
+                    editing = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -74,8 +102,24 @@ namespace workForm.Windows.Main
 
         private void rbManual_Checked(object sender, RoutedEventArgs e)
         {
-            enableManual();
-            disableAuto();
+            if (automaticTimerStarted)
+            {
+                if (MessageBox.Show("Do you want to clear timer and enter time manually instead?", "Question", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    enableManual();
+                    disableAuto();
+                    automaticTimerStarted = false;
+                    labAutoTime.Content = "00:00:00";
+                }
+            }
+            else
+            {
+                enableManual();
+                disableAuto();
+                automaticTimerStarted = false;
+                labAutoTime.Content = "00:00:00";
+            }
+
         }
         private void rbAuto_Checked(object sender, RoutedEventArgs e)
         {
@@ -114,11 +158,41 @@ namespace workForm.Windows.Main
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
             Work.Descripton = tbName.Text;
-            Work.Start = getTime(cbStart, dtpStart);
-            Work.End = getTime(cbEnd, dtpEnd);
+            if (automaticTimerStarted)
+            {
+                Work.Start = autoStartingTime;
+                Work.End = autoEndingTime;
+            }
+            else
+            {
+                Work.Start = getTime(cbStart, dtpStart);
+                Work.End = getTime(cbEnd, dtpEnd);
+            }
             Work.idProject = selProject.IDproject;
+            if (chkCompleted.IsChecked == true)
+            {
+                Work.Completed = true;
+            }
+            else
+            {
+                Work.Completed = false;
+            }
+            if (editing)
+            {
+                var dr = context.tbWorks.FirstOrDefault(x => x.IDwork == Work.IDwork);
+                if (dr != null)
+                {
+                    dr.Descripton = Work.Descripton;
+                    dr.Start = Work.Start;
+                    dr.End = Work.End;
+                    dr.Completed = Work.Completed;
+                }
+            }
+            else
+            {
+                context.tbWorks.Add(Work);
+            }
 
-            context.tbWorks.Add(Work);
             context.SaveChanges();
             ClosePage();
         }
@@ -164,16 +238,45 @@ namespace workForm.Windows.Main
         */
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            Timer.Start();
-            rbManual.IsEnabled = false;
-            btnOk.IsEnabled = false;
+            if (automaticTimerStarted)
+            {
+                if (MessageBox.Show("Do you want to start again?", "Question", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    autoStartingTime = DateTime.Now;
+                    Timer.Start();
+                    increment = 0;
+                    rbManual.IsEnabled = false;
+                    btnOk.IsEnabled = false;
+                    btnStart.IsEnabled = false;
+                    automaticTimerStarted = true;
+
+                }
+
+            }
+            else
+            {
+                autoStartingTime = DateTime.Now;
+                Timer.Start();
+                rbManual.IsEnabled = false;
+                btnOk.IsEnabled = false;
+                btnStart.IsEnabled = false;
+                automaticTimerStarted = true;
+            }
+
         }
 
         private void btnEnd_Click(object sender, RoutedEventArgs e)
         {
+            autoEndingTime = DateTime.Now;
             Timer.Stop();
             rbManual.IsEnabled = true;
             btnOk.IsEnabled = true;
+            btnStart.IsEnabled = true;
         }
+
+
+        /*VALIDATION*/
+
+
     }
 }

@@ -25,9 +25,9 @@ namespace workForm.Windows.Main
         MyContext context = new MyContext();
         public Windows.Main.pgProjectDetail pageProjectDetail { get; set; }
         public Tables.Project selProject { get; set; }
-        public Tables.Work selWork { get; set; }
+        public Tables.Work SelWork { get; set; } = new Tables.Work();
 
-        public pgDatagrid(Tables.Project p )
+        public pgDatagrid(Tables.Project p)
         {
             InitializeComponent();
             selProject = p;
@@ -55,10 +55,18 @@ namespace workForm.Windows.Main
             //var row = (Tables.Work)dg_works.SelectedItem;
 
             DataRowView r = dg_works.SelectedItem as DataRowView;
-            int workid = Convert.ToInt32(r.Row.ItemArray[0].ToString());
 
-            selWork = context.tbWorks.SingleOrDefault(x => x.IDwork == workid);
-            
+            //int workid = Convert.ToInt32(r.Row.ItemArray[0].ToString());
+            //SelWork = context.tbWorks.SingleOrDefault(x => x.IDwork == workid);
+
+
+
+            SelWork.IDwork = Convert.ToInt32(r.Row.ItemArray[0].ToString());
+            SelWork.Descripton = r.Row.ItemArray[1].ToString();
+            SelWork.Start = Convert.ToDateTime(r.Row.ItemArray[2].ToString());
+            SelWork.Start = Convert.ToDateTime(r.Row.ItemArray[3].ToString());
+            SelWork.idProject = Convert.ToInt32(r.Row.ItemArray[4].ToString());
+
         }
     }
 }
