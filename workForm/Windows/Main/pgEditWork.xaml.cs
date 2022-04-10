@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace workForm.Windows.Main
 {
@@ -20,9 +21,9 @@ namespace workForm.Windows.Main
     /// </summary>
     public partial class pgEditWork : Page
     {
-           public MyContext context { get; set; } = new MyContext();
-           public Tables.Project selProject { get; set; } = new Tables.Project();
-           public Tables.Work Work { get; set; } = new Tables.Work();
+        public MyContext context { get; set; } = new MyContext();
+        public Tables.Project selProject { get; set; } = new Tables.Project();
+        public Tables.Work Work { get; set; } = new Tables.Work();
         public pgProjectDetail NamingContainer { get; private set; }
 
         public pgEditWork(Tables.Project p, Tables.Work w)
@@ -32,7 +33,6 @@ namespace workForm.Windows.Main
 
             Work.idProject = selProject.IDproject;
             Work = w;
-
 
 
         }
@@ -51,8 +51,6 @@ namespace workForm.Windows.Main
 
             disableAuto();
             disableManual();
-
-
         }
 
 
@@ -60,7 +58,7 @@ namespace workForm.Windows.Main
         {
             DateTime dt = DateTime.Now;
 
-            string t =  cb.Text.ToString();
+            string t = cb.Text.ToString();
             string d = dp.ToString();
             d = d.Substring(0, d.Length - 8);
 
@@ -77,8 +75,16 @@ namespace workForm.Windows.Main
         private void rbManual_Checked(object sender, RoutedEventArgs e)
         {
             enableManual();
+            disableAuto();
         }
-
+        private void rbAuto_Checked(object sender, RoutedEventArgs e)
+        {
+            Timer = new DispatcherTimer();
+            InitializeTimer();
+            increment = 0;
+            enableAuto();
+            disableManual();
+        }
         private void disableManual()
         {
             cbStart.IsEnabled = false;
@@ -95,12 +101,15 @@ namespace workForm.Windows.Main
         }
         private void disableAuto()
         {
-
+            btnStart.IsEnabled = false;
+            btnEnd.IsEnabled = false;
         }
         private void enableAuto()
         {
-
+            btnStart.IsEnabled = true;
+            btnEnd.IsEnabled = true;
         }
+
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
@@ -112,19 +121,59 @@ namespace workForm.Windows.Main
             context.tbWorks.Add(Work);
             context.SaveChanges();
             ClosePage();
-
-
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             ClosePage();
         }
-        
+
         public void ClosePage()
         {
             pgDatagrid secPage = new pgDatagrid(selProject);
             NavigationService.Navigate(secPage);
+        }
+
+
+        /* TIMER */
+        public DispatcherTimer Timer { get; set; } = new DispatcherTimer();
+
+        public void InitializeTimer()
+        {
+            Timer.Interval = TimeSpan.FromSeconds(1);
+            Timer.Tick += Timer_Tick;
+        }
+
+        private int increment = 0;
+        private TimeSpan incrementInterval;
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            increment++;
+            incrementInterval = TimeSpan.FromSeconds(increment);
+            string h = incrementInterval.Hours.ToString().PadLeft(2, '0');
+            string m = incrementInterval.Minutes.ToString().PadLeft(2, '0');
+            string s = incrementInterval.Seconds.ToString().PadLeft(2, '0');
+            labAutoTime.Content = $"{h}:{m}:{s}";
+        }
+        /*
+        private string Padder(string x)
+        {
+            x.PadLeft(2, '0');
+            return x;
+        }
+        */
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            Timer.Start();
+            rbManual.IsEnabled = false;
+            btnOk.IsEnabled = false;
+        }
+
+        private void btnEnd_Click(object sender, RoutedEventArgs e)
+        {
+            Timer.Stop();
+            rbManual.IsEnabled = true;
+            btnOk.IsEnabled = true;
         }
     }
 }
