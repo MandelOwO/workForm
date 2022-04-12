@@ -62,5 +62,10 @@ namespace workForm
             Frame1.Content = new Windows.Main.pgProjectDetail(p);
 
         }
+
+        private void btnLogOut_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

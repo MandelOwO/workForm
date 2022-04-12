@@ -9,6 +9,20 @@ namespace workForm.Tables
 {
     public class Work
     {
+        public Work()
+        {
+        }
+
+        public Work(int iDwork, string descripton, DateTime start, DateTime end, int idProject, bool completed)
+        {
+            IDwork = iDwork;
+            Descripton = descripton;
+            Start = start;
+            End = end;
+            this.idProject = idProject;
+            Completed = completed;
+        }
+
         [Key]
         public int IDwork { get; set; }
         public string Descripton { get; set; }

@@ -50,7 +50,7 @@ namespace workForm.Windows.Login
             try
             {
                 usr = context.tbUsers.SingleOrDefault(u => u.Username == usernameInput) as Tables.User;
-                pass = context.tbUsers.SingleOrDefault(p => p.Password == passwordInput) as Tables.User;
+               // pass = context.tbUsers.SingleOrDefault(p => p.Password == passwordInput) as Tables.User;
 
             }
             catch (Exception ex)
@@ -61,7 +61,7 @@ namespace workForm.Windows.Login
           
             if (usr != null && pass != null)
             {
-                if (usernameInput == usr.Username && passwordInput == usr.Password)
+                if (usernameInput == usr.Username && usr.Password == passwordInput )
                 {
                     MainWindow w = new MainWindow(usr);
                     w.Show();

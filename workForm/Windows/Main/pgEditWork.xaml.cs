@@ -1,19 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
+using workForm.Tables;
 
 namespace workForm.Windows.Main
 {
@@ -23,8 +15,8 @@ namespace workForm.Windows.Main
     public partial class pgEditWork : Page
     {
         public MyContext context { get; set; } = new MyContext();
-        public Tables.Project selProject { get; set; } = new Tables.Project();
-        public Tables.Work Work { get; set; } = new Tables.Work();
+        public Project selProject { get; set; } = new Project();
+        public Work Work { get; set; } = new Work();
         public pgProjectDetail NamingContainer { get; private set; }
         private bool automaticTimerStarted;
         private bool editing = false;
@@ -32,7 +24,7 @@ namespace workForm.Windows.Main
         private DateTime autoEndingTime;
 
 
-        public pgEditWork(Tables.Project p, Tables.Work w)
+        public pgEditWork(Project p, Work w)
         {
             InitializeComponent();
             selProject = p;
@@ -45,28 +37,32 @@ namespace workForm.Windows.Main
         }
         private void lodaWorkData()
         {
-            try
+            if (Work.Descripton != null)
             {
-                tbName.Text = Work.Descripton;
-                if (Work.Completed)
+                try
                 {
-                    chkCompleted.IsChecked = true;
-                }
-                dtpStart.Text = Work.Start.ToString().Substring(0, 10);
-                cbStart.Text = Work.Start.ToString().Substring(11, 5);
-                dtpEnd.Text = Work.End.ToString().Substring(0, 10);
-                cbEnd.Text = Work.End.ToString().Substring(11, 5);
-                rbManual.IsChecked = true;
-                if (Work.Descripton != null)
-                {
-                    editing = true;
-                }
+                    tbName.Text = Work.Descripton;
+                    if (Work.Completed)
+                    {
+                        chkCompleted.IsChecked = true;
+                    }
+                    dtpStart.Text = Work.Start.ToString().Substring(0, 10);
+                    cbStart.Text = Work.Start.ToString().Substring(11, 5);
+                    dtpEnd.Text = Work.End.ToString().Substring(0, 10);
+                    cbEnd.Text = Work.End.ToString().Substring(11, 5);
+                    rbManual.IsChecked = true;
+                    if (Work.Descripton != null)
+                    {
+                        editing = true;
+                    }
 
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -177,6 +173,8 @@ namespace workForm.Windows.Main
             {
                 Work.Completed = false;
             }
+
+
             if (editing)
             {
                 var dr = context.tbWorks.FirstOrDefault(x => x.IDwork == Work.IDwork);
