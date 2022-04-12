@@ -67,10 +67,10 @@ namespace workForm.Windows.Main
 
         private void btn_addWork_Click(object sender, RoutedEventArgs e)
         {
-            pgEditWork pg = new pgEditWork(selProject, new Work());
+            pgEditWork pg = new pgEditWork(selProject, new Work(), EnableButtons);
             frame1.Content = pg;
 
-            // DisableButtons();       //  <-- JE POTŘEBA DOŘEŠIT
+            DisableButtons();       //  <-- JE POTŘEBA DOŘEŠIT
         }
         private void btn_ediWtork_Click(object sender, RoutedEventArgs e)
         {
@@ -78,7 +78,9 @@ namespace workForm.Windows.Main
             Work work = pageDatagrid.GetSelectedWork();
             if (work != null)
             {
-                pg = new pgEditWork(selProject, work);
+
+
+                pg = new pgEditWork(selProject, work, EnableButtons);
                 frame1.Content = pg;
             }
         }

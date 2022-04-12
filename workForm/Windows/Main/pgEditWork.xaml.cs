@@ -22,16 +22,16 @@ namespace workForm.Windows.Main
         private bool editing = false;
         private DateTime autoStartingTime;
         private DateTime autoEndingTime;
+        private Action EnableButtons;
 
-
-        public pgEditWork(Project p, Work w)
+        public pgEditWork(Project p, Work w, Action enableButtons)
         {
             InitializeComponent();
             selProject = p;
 
             Work.idProject = selProject.IDproject;
             Work = w;
-
+            EnableButtons = enableButtons;
             lodaWorkData();
 
         }
@@ -192,6 +192,8 @@ namespace workForm.Windows.Main
             }
 
             context.SaveChanges();
+            pgDatagrid p = new pgDatagrid(selProject);
+            p.FillData();
             ClosePage();
         }
 
@@ -203,6 +205,7 @@ namespace workForm.Windows.Main
         public void ClosePage()
         {
             pgDatagrid secPage = new pgDatagrid(selProject);
+            EnableButtons();
             NavigationService.Navigate(secPage);
         }
 
