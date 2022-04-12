@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -29,7 +30,7 @@ namespace workForm.Windows.Main
         public Work SelWork { get; set; } = new Work();
 
 
-        private IEnumerable<Work> _works { get; set; }
+        private ObservableCollection<Work> _works { get; set; } = new ObservableCollection<Work>();
         public pgDatagrid(Project p)
         {
             InitializeComponent();
@@ -85,7 +86,32 @@ namespace workForm.Windows.Main
         public void FillData()
         {
             var w = context.tbWorks.Where(x => x.idProject == SelProject.IDproject).ToList<Work>();
-            _works = w;
+            foreach (var item in w)
+            {
+                _works.Add(item);
+            }
+
+        }
+        public void DeleteWork()
+        {
+            Work wrk = GetSelectedWork();
+            if (wrk != null)
+            {
+                var w = context.tbWorks.SingleOrDefault(x => x.IDwork == wrk.IDwork);
+                if (w != null)
+                {
+                    context.tbWorks.Remove(w);
+                    _works.Remove(w);
+                }
+
+                context.SaveChanges();
+                lvWorks.Items.Refresh();
+            }
+        }
+        public Work GetSelectedWork()
+        {
+            Work work = (Work)lvWorks.SelectedItem;
+            return work;
         }
     }
 }

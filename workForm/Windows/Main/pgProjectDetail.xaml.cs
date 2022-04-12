@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using workForm.Tables;
 
 namespace workForm.Windows.Main
 {
@@ -23,20 +24,20 @@ namespace workForm.Windows.Main
     {
 
         MyContext context = new MyContext();
-        public Tables.Project selProject { get; set; }
-        public Tables.Customer selCustomer { get; set; }
-        public Windows.Main.pgDatagrid pageDatagrid { get; set; }
+        public Project selProject { get; set; }
+        public Customer selCustomer { get; set; }
+        public pgDatagrid pageDatagrid { get; set; }
 
         //   public dataBindings.WorksDataModel Model { get; set; }
 
 
 
-        public pgProjectDetail(Tables.Project p)
+        public pgProjectDetail(Project p)
         {
             InitializeComponent();
             selProject = p;
             // Model = new dataBindings.WorksDataModel(selProject);
-            pageDatagrid = new Windows.Main.pgDatagrid(selProject);
+            pageDatagrid = new pgDatagrid(selProject);
 
         }
 
@@ -52,7 +53,7 @@ namespace workForm.Windows.Main
 
 
 
-        public Tables.Customer FindCustomer(Tables.Project project)
+        public Customer FindCustomer(Project project)
         {
             var cust = context.tbCustomers.SingleOrDefault(c => c.IDcustomer == project.idCustomer);
             return cust;
@@ -66,23 +67,22 @@ namespace workForm.Windows.Main
 
         private void btn_addWork_Click(object sender, RoutedEventArgs e)
         {
-            Windows.Main.pgEditWork pg = new Windows.Main.pgEditWork(selProject, new Tables.Work());
+            pgEditWork pg = new pgEditWork(selProject, new Work());
             frame1.Content = pg;
 
             // DisableButtons();       //  <-- JE POTŘEBA DOŘEŠIT
         }
         private void btn_ediWtork_Click(object sender, RoutedEventArgs e)
         {
-            Windows.Main.pgEditWork pg;
-            try
+            pgEditWork pg;
+            Work work = pageDatagrid.GetSelectedWork();
+            if (work != null)
             {
-                pg = new Windows.Main.pgEditWork(selProject, pageDatagrid.SelWork);
+                pg = new pgEditWork(selProject, work);
                 frame1.Content = pg;
             }
-            catch (Exception) { }
-
-
         }
+
         public void DisableButtons()
         {
             btn_addWork.IsEnabled = false;
@@ -99,12 +99,7 @@ namespace workForm.Windows.Main
 
         private void btn_deleteWork_Click(object sender, RoutedEventArgs e)
         {
-            var w = context.tbWorks.SingleOrDefault(x => x.IDwork == pageDatagrid.SelWork.IDwork);
-            if (w != null)
-                context.tbWorks.Remove(w);
-            context.SaveChanges();
-            pageDatagrid = new Windows.Main.pgDatagrid(selProject);
-            frame1.Content = pageDatagrid;
+            pageDatagrid.DeleteWork();
         }
     }
 }
