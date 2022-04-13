@@ -173,7 +173,7 @@ namespace workForm.Windows.Main
             {
                 Work.Completed = false;
             }
-
+            Work.Duration = Work.End.Subtract(Work.Start);
 
             if (editing)
             {
@@ -184,6 +184,7 @@ namespace workForm.Windows.Main
                     dr.Start = Work.Start;
                     dr.End = Work.End;
                     dr.Completed = Work.Completed;
+                    dr.Duration = Work.Duration;
                 }
             }
             else

@@ -30,6 +30,7 @@ namespace workForm.Tables
         public DateTime End { get; set; }
         public int idProject { get; set; }
         public bool Completed { get; set; }
+        public TimeSpan Duration { get; set; }
 
 
     }
