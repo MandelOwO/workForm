@@ -37,12 +37,13 @@ namespace workForm.Windows.Main
             InitializeComponent();
             selProject = p;
             // Model = new dataBindings.WorksDataModel(selProject);
-            pageDatagrid = new pgDatagrid(selProject);
+
 
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
+            pageDatagrid = new pgDatagrid(selProject);
             selCustomer = FindCustomer(selProject);
             lab_projectName.Content = selProject.Name;
             lab_rate.Content = selProject.Rate;
@@ -74,11 +75,10 @@ namespace workForm.Windows.Main
         }
         private void btn_ediWtork_Click(object sender, RoutedEventArgs e)
         {
-            pgEditWork pg;
             Work work = pageDatagrid.GetSelectedWork();
             if (work != null)
             {
-                pg = new pgEditWork(selProject, work, EnableButtons);
+                pgEditWork pg = new pgEditWork(selProject, work, EnableButtons);
                 frame1.Content = pg;
                 DisableButtons();
             }

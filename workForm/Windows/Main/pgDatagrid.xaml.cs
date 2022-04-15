@@ -35,13 +35,12 @@ namespace workForm.Windows.Main
         {
             InitializeComponent();
             SelProject = p;
-            FillData();
             lvWorks.ItemsSource = _works;
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-
+            FillData();
 
 
             /*

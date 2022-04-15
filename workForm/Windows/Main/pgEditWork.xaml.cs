@@ -41,7 +41,7 @@ namespace workForm.Windows.Main
             {
                 try
                 {
-                    tbName.Text = Work.Descripton;
+                    cbName.Text = Work.Descripton;
                     if (Work.Completed)
                     {
                         chkCompleted.IsChecked = true;
@@ -63,6 +63,7 @@ namespace workForm.Windows.Main
                 }
             }
 
+
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -72,9 +73,10 @@ namespace workForm.Windows.Main
 
             cbStart.ItemsSource = cbSource();
             cbEnd.ItemsSource = cbSource();
+            cbName.ItemsSource = LoadWorks();
 
-            disableAuto();
-            disableManual();
+            DisableAuto();
+            DisableManual();
         }
 
 
@@ -102,16 +104,16 @@ namespace workForm.Windows.Main
             {
                 if (MessageBox.Show("Do you want to clear timer and enter time manually instead?", "Question", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    enableManual();
-                    disableAuto();
+                    EnableManual();
+                    DisableAuto();
                     automaticTimerStarted = false;
                     labAutoTime.Content = "00:00:00";
                 }
             }
             else
             {
-                enableManual();
-                disableAuto();
+                EnableManual();
+                DisableAuto();
                 automaticTimerStarted = false;
                 labAutoTime.Content = "00:00:00";
             }
@@ -122,29 +124,29 @@ namespace workForm.Windows.Main
             Timer = new DispatcherTimer();
             InitializeTimer();
             increment = 0;
-            enableAuto();
-            disableManual();
+            EnableAuto();
+            DisableManual();
         }
-        private void disableManual()
+        private void DisableManual()
         {
             cbStart.IsEnabled = false;
             cbEnd.IsEnabled = false;
             dtpStart.IsEnabled = false;
             dtpEnd.IsEnabled = false;
         }
-        private void enableManual()
+        private void EnableManual()
         {
             cbStart.IsEnabled = true;
             cbEnd.IsEnabled = true;
             dtpStart.IsEnabled = true;
             dtpEnd.IsEnabled = true;
         }
-        private void disableAuto()
+        private void DisableAuto()
         {
             btnStart.IsEnabled = false;
             btnEnd.IsEnabled = false;
         }
-        private void enableAuto()
+        private void EnableAuto()
         {
             btnStart.IsEnabled = true;
             btnEnd.IsEnabled = true;
@@ -153,7 +155,9 @@ namespace workForm.Windows.Main
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-            Work.Descripton = tbName.Text;
+            Work.Descripton = cbName.Text;
+            Work.idProject = selProject.IDproject;
+
             if (automaticTimerStarted)
             {
                 Work.Start = autoStartingTime;
@@ -164,7 +168,8 @@ namespace workForm.Windows.Main
                 Work.Start = getTime(cbStart, dtpStart);
                 Work.End = getTime(cbEnd, dtpEnd);
             }
-            Work.idProject = selProject.IDproject;
+
+
             if (chkCompleted.IsChecked == true)
             {
                 Work.Completed = true;
@@ -173,29 +178,35 @@ namespace workForm.Windows.Main
             {
                 Work.Completed = false;
             }
+
             Work.Duration = Work.End.Subtract(Work.Start);
 
-            if (editing)
+            if (IsValid())
             {
-                var dr = context.tbWorks.FirstOrDefault(x => x.IDwork == Work.IDwork);
-                if (dr != null)
+
+                if (editing)
                 {
-                    dr.Descripton = Work.Descripton;
-                    dr.Start = Work.Start;
-                    dr.End = Work.End;
-                    dr.Completed = Work.Completed;
-                    dr.Duration = Work.Duration;
+                    var dr = context.tbWorks.FirstOrDefault(x => x.IDwork == Work.IDwork);
+                    if (dr != null)
+                    {
+                        dr.Descripton = Work.Descripton;
+                        dr.Start = Work.Start;
+                        dr.End = Work.End;
+                        dr.Completed = Work.Completed;
+                        dr.Duration = Work.Duration;
+                    }
                 }
-            }
-            else
-            {
-                context.tbWorks.Add(Work);
+                else
+                {
+                    context.tbWorks.Add(Work);
+                }
+
+                context.SaveChanges();
+                pgDatagrid p = new pgDatagrid(selProject);
+                p.FillData();
+                ClosePage();
             }
 
-            context.SaveChanges();
-            pgDatagrid p = new pgDatagrid(selProject);
-            p.FillData();
-            ClosePage();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -231,13 +242,7 @@ namespace workForm.Windows.Main
             string s = incrementInterval.Seconds.ToString().PadLeft(2, '0');
             labAutoTime.Content = $"{h}:{m}:{s}";
         }
-        /*
-        private string Padder(string x)
-        {
-            x.PadLeft(2, '0');
-            return x;
-        }
-        */
+
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
             if (automaticTimerStarted)
@@ -276,9 +281,67 @@ namespace workForm.Windows.Main
             btnStart.IsEnabled = true;
         }
 
+        public List<string> LoadWorks()
+        {
+            List<Work> data = context.tbWorks.Where(x => x.idProject == selProject.IDproject).ToList<Work>();
+            List<string> workNames = new List<string>();
+
+            foreach (var item in data)
+            {
+                workNames.Add(item.Descripton);
+            }
+            return workNames;
+
+        }
 
         /*VALIDATION*/
+        public bool IsValid()
+        {
+            bool isValid = true;
+
+            if (!NegativeTimeValidation())
+                isValid = false;
+
+            if (!EmptyTimeValidator())
+                isValid = false;
+
+            if (!NameValidator())
+                isValid = false;
 
 
+            return isValid;
+        }
+
+        public bool NameValidator()
+        {
+
+            if (string.IsNullOrWhiteSpace(cbName.Text))
+            {
+                labMessage.Content = "Please enter a project name";
+                return false;
+            }
+            return true;
+        }
+
+        public bool EmptyTimeValidator()
+        {
+            if (Work.Duration == TimeSpan.Zero)
+            {
+                labMessage.Content = "Please provide a time";
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool NegativeTimeValidation()
+        {
+            if (Work.Duration.CompareTo(TimeSpan.Zero) < 0)
+            {
+                labMessage.Content = "Time can not be negative";
+                return false;
+            }
+            return true;
+        }
     }
 }
