@@ -78,10 +78,9 @@ namespace workForm.Windows.Main
             Work work = pageDatagrid.GetSelectedWork();
             if (work != null)
             {
-
-
                 pg = new pgEditWork(selProject, work, EnableButtons);
                 frame1.Content = pg;
+                DisableButtons();
             }
         }
 
