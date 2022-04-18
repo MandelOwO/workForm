@@ -8,7 +8,7 @@
       Width="500" Height="300"
       Title="pgDatagrid">
 
-    <Grid Loaded="Grid_Loaded">
+    <Grid Loaded="Grid_Loaded" Height="250" VerticalAlignment="Bottom">
         <ListView Name="lvWorks">
             <ListView.View>
                 <GridView>

@@ -9,11 +9,7 @@
       Title="pgEditWork" Loaded="Page_Loaded">
     <Grid>
         <StackPanel>
-            <ComboBox x:Name="cbName"  Width="480" HorizontalAlignment="Left" FontSize="20" IsEditable="True">
-
-            </ComboBox>
-
-
+            <ComboBox x:Name="cbName"  Width="480" HorizontalAlignment="Left" FontSize="20" IsEditable="True"/>
             <Grid VerticalAlignment="Top" Margin="0,20,0,0" Height="110" Panel.ZIndex="-1"  >
                 <RadioButton x:Name="rbManual" Content="Manual time" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0" GroupName="Mode" IsChecked="{Binding Path=ModeArray[0], Mode=TwoWay}" Checked="rbManual_Checked"/>
                 <Grid Width="250" HorizontalAlignment="Left">

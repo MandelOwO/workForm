@@ -19,7 +19,7 @@ namespace workForm.Windows.Login
     /// </summary>
     public partial class WinLogin : Window
     {
-        
+
         MyContext context = new MyContext();
 
         public WinLogin()
@@ -46,22 +46,22 @@ namespace workForm.Windows.Login
             string passwordInput = this.tb_password.Password;
             var usr = new Tables.User();
             var pass = new Tables.User();
-         
+
             try
             {
                 usr = context.tbUsers.SingleOrDefault(u => u.Username == usernameInput) as Tables.User;
-               // pass = context.tbUsers.SingleOrDefault(p => p.Password == passwordInput) as Tables.User;
+                // pass = context.tbUsers.SingleOrDefault(p => p.Password == passwordInput) as Tables.User;
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Can not connect to the database\nError:\n"+ex.Message);
-                
+
+                MessageBox.Show("Can not connect to the database\nError:\n" + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-          
+
             if (usr != null && pass != null)
             {
-                if (usernameInput == usr.Username && usr.Password == passwordInput )
+                if (usernameInput == usr.Username && usr.Password == passwordInput)
                 {
                     MainWindow w = new MainWindow(usr);
                     w.Show();

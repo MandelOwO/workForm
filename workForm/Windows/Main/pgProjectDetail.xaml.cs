@@ -27,17 +27,21 @@ namespace workForm.Windows.Main
         public Project selProject { get; set; }
         public Customer selCustomer { get; set; }
         public pgDatagrid pageDatagrid { get; set; }
+        public Action DisableMainButtons;
+        public Action EnableMainButtons;
+
 
         //   public dataBindings.WorksDataModel Model { get; set; }
 
 
 
-        public pgProjectDetail(Project p)
+        public pgProjectDetail(Project p, Action disableButt, Action enableButt)
         {
             InitializeComponent();
             selProject = p;
             // Model = new dataBindings.WorksDataModel(selProject);
-
+            DisableMainButtons = disableButt;
+            EnableMainButtons = enableButt;
 
         }
 
@@ -68,19 +72,22 @@ namespace workForm.Windows.Main
 
         private void btn_addWork_Click(object sender, RoutedEventArgs e)
         {
-            pgEditWork pg = new pgEditWork(selProject, new Work(), EnableButtons);
+            pgEditWork pg = new pgEditWork(selProject, new Work(), EnableButtons, EnableMainButtons);
             frame1.Content = pg;
 
-            DisableButtons();       //  <-- JE POTŘEBA DOŘEŠIT
+
+            DisableButtons();
+            DisableMainButtons();
         }
         private void btn_ediWtork_Click(object sender, RoutedEventArgs e)
         {
             Work work = pageDatagrid.GetSelectedWork();
             if (work != null)
             {
-                pgEditWork pg = new pgEditWork(selProject, work, EnableButtons);
+                pgEditWork pg = new pgEditWork(selProject, work, EnableButtons, EnableMainButtons);
                 frame1.Content = pg;
                 DisableButtons();
+                DisableMainButtons();
             }
         }
 
@@ -100,7 +107,10 @@ namespace workForm.Windows.Main
 
         private void btn_deleteWork_Click(object sender, RoutedEventArgs e)
         {
-            pageDatagrid.DeleteWork();
+            if (MessageBox.Show("Are you sure that you want to delete this work?", "Question", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                pageDatagrid.DeleteWork();
+            }
         }
     }
 }

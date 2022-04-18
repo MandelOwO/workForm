@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using workForm.Windows.Main;
 
 namespace workForm
 {
@@ -20,7 +21,7 @@ namespace workForm
     /// </summary>
     public partial class MainWindow : Window
     {
-        MyContext context = new MyContext();    
+        MyContext context = new MyContext();
         Tables.User CurrentUser { get; set; }
 
         public MainWindow(Tables.User u)
@@ -38,14 +39,14 @@ namespace workForm
 
         public void LoadProjects(Tables.User usr)
         {
-         
+
             var projects = context.tbProjects.Where(u => u.idUser == usr.IDuser).AsQueryable().ToList<Tables.Project>();
 
             cb_projectsList.ItemsSource = projects;
             cb_projectsList.DisplayMemberPath = "Name";
             cb_projectsList.SelectedValue = "IDproject";
 
-            
+
         }
 
 
@@ -59,13 +60,33 @@ namespace workForm
         private void cb_projectsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Tables.Project p = cb_projectsList.SelectedItem as Tables.Project;
-            Frame1.Content = new Windows.Main.pgProjectDetail(p);
+            if (p != null)
+                Frame1.Content = new pgProjectDetail(p, DisableButtons, EnableButtons);
 
         }
 
-        private void btnLogOut_Click(object sender, RoutedEventArgs e)
+        public void DisableButtons()
         {
 
+            btnViewCustomers.IsEnabled = false;
+            btnViewProjects.IsEnabled = false;
+
+        }
+        public void EnableButtons()
+        {
+
+            btnViewProjects.IsEnabled = true;
+            btnViewCustomers.IsEnabled = true;
+        }
+
+        private void btnViewProjects_Click(object sender, RoutedEventArgs e)
+        {
+            Frame1.Content = new pgViewProject(CurrentUser);
+        }
+
+        private void btnViewCustomers_Click(object sender, RoutedEventArgs e)
+        {
+            Frame1.Content = new pgViewCustomer();
         }
     }
 }

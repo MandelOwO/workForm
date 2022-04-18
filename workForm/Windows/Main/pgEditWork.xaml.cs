@@ -23,8 +23,9 @@ namespace workForm.Windows.Main
         private DateTime autoStartingTime;
         private DateTime autoEndingTime;
         private Action EnableButtons;
+        private Action EnableMainButtons;
 
-        public pgEditWork(Project p, Work w, Action enableButtons)
+        public pgEditWork(Project p, Work w, Action enableButtons, Action enaMainButt)
         {
             InitializeComponent();
             selProject = p;
@@ -32,6 +33,7 @@ namespace workForm.Windows.Main
             Work.idProject = selProject.IDproject;
             Work = w;
             EnableButtons = enableButtons;
+            EnableMainButtons = enaMainButt;
             lodaWorkData();
 
         }
@@ -179,6 +181,12 @@ namespace workForm.Windows.Main
                 Work.Completed = false;
             }
 
+            var works = context.tbWorks.Where(x => x.Descripton == Work.Descripton).ToList<Work>();
+            foreach (var work in works)
+            {
+                work.Completed = Work.Completed;
+            }
+
             Work.Duration = Work.End.Subtract(Work.Start);
 
             if (IsValid())
@@ -218,6 +226,7 @@ namespace workForm.Windows.Main
         {
             pgDatagrid secPage = new pgDatagrid(selProject);
             EnableButtons();
+            EnableMainButtons();
             NavigationService.Navigate(secPage);
         }
 
