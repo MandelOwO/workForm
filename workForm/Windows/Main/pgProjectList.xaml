@@ -8,7 +8,7 @@
        Height="350" Width="500" 
       Title="pgProjectList">
 
-    <Grid>
+    <Grid Height="300" VerticalAlignment="Bottom">
         <ListView Name="lvProjects">
             <ListView.View>
                 <GridView>

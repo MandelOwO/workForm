@@ -22,13 +22,31 @@ namespace workForm.Windows.Main
     public partial class pgViewProject : Page
     {
         public User CurrentUser { get; set; }
-        public pgViewProject(User usr)
+        public pgProjectList pageProjectList { get; set; }
+        public Action DisableMainButtons { get; set; }
+        public Action EnableMainButtons { get; set; }
+
+        public pgViewProject(User usr, Action disaButt, Action enaButt)
         {
             InitializeComponent();
             CurrentUser = usr;
+            pageProjectList = new pgProjectList(CurrentUser);
+            DisableMainButtons = disaButt;
+            EnableMainButtons = enaButt;
 
-            Frame1.Content = new pgProjectList(CurrentUser);
+
+            Frame1.Content = pageProjectList;
         }
 
+        private void btnSelect_Click(object sender, RoutedEventArgs e)
+        {
+            Project project = pageProjectList.GetSelectedProject();
+            if (project != null)
+            {
+                pgProjectDetail secPage = new pgProjectDetail(project, DisableMainButtons, EnableMainButtons);
+                NavigationService.Navigate(secPage);
+            }
+
+        }
     }
 }

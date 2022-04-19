@@ -30,8 +30,8 @@ namespace workForm.Windows.Main
         {
             InitializeComponent();
             CurrentUser = usr;
-
             LoadProjectsIntoList();
+            lvProjects.ItemsSource = _projects;
         }
 
         public void LoadProjectsIntoList()
@@ -40,11 +40,22 @@ namespace workForm.Windows.Main
             foreach (var item in p)
             {
                 var customer = Context.tbCustomers.SingleOrDefault(x => x.IDcustomer == item.idCustomer);
-                ProjectWithCustomerName project = new ProjectWithCustomerName(item.IDproject, item.Name, item.Rate, customer, customer.Name, CurrentUser, item.Completed);
+                ProjectWithCustomerName project = new ProjectWithCustomerName(item.IDproject, item.Name, item.Rate, customer.Name, item.Completed);
                 _projects.Add(project);
             }
 
-            lvProjects.ItemsSource = _projects;
+
         }
+
+        public Project GetSelectedProject()
+        {
+            ProjectWithCustomerName p = lvProjects.SelectedItem as ProjectWithCustomerName;
+            Project project = new Project();
+            if (p == null)
+                return null;
+            project = Context.tbProjects.SingleOrDefault(x => x.IDproject == p.IDproject);
+            return project;
+        }
+
     }
 }

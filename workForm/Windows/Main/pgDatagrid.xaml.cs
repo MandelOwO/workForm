@@ -35,52 +35,15 @@ namespace workForm.Windows.Main
         {
             InitializeComponent();
             SelProject = p;
+            FillData();
             lvWorks.ItemsSource = _works;
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            FillData();
+            // FillData();
 
-
-            /*
-            dg_works.ItemsSource = listSource.DefaultView;
-
-
-            dg_works.Columns[0].Visibility = Visibility.Collapsed;
-            dg_works.Columns[2].Visibility = Visibility.Collapsed;
-            dg_works.Columns[3].Visibility = Visibility.Collapsed;
-            dg_works.Columns[4].Visibility = Visibility.Collapsed;
-
-            */
         }
-        /*
-                public void FillData()
-                {
-                    var data = context.tbWorks.Where(w => w.idProject == selProject.IDproject).ToList();
-                    listSource = tools.DataLoader.ToDataTable(data);
-                }
-
-                private void dg_works_SelectionChanged(object sender, SelectionChangedEventArgs e)
-                {
-                    //var row = (Tables.Work)dg_works.SelectedItem;
-
-
-                    DataRowView r = dg_works.SelectedItem as DataRowView;
-
-                    //int workid = Convert.ToInt32(r.Row.ItemArray[0].ToString());
-                    //SelWork = context.tbWorks.SingleOrDefault(x => x.IDwork == workid);
-
-
-
-                    SelWork.IDwork = Convert.ToInt32(r.Row.ItemArray[0].ToString());
-                    SelWork.Descripton = r.Row.ItemArray[1].ToString();
-                    SelWork.Start = Convert.ToDateTime(r.Row.ItemArray[2].ToString());
-                    SelWork.Start = Convert.ToDateTime(r.Row.ItemArray[3].ToString());
-                    SelWork.idProject = Convert.ToInt32(r.Row.ItemArray[4].ToString());
-
-                }
-         */
 
         public void FillData()
         {
@@ -101,6 +64,7 @@ namespace workForm.Windows.Main
                 {
                     context.tbWorks.Remove(w);
                     _works.Remove(w);
+                    lvWorks.Items.Remove(w);
                 }
 
                 context.SaveChanges();

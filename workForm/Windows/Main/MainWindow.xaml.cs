@@ -81,7 +81,7 @@ namespace workForm
 
         private void btnViewProjects_Click(object sender, RoutedEventArgs e)
         {
-            Frame1.Content = new pgViewProject(CurrentUser);
+            Frame1.Content = new pgViewProject(CurrentUser, DisableButtons, EnableButtons);
         }
 
         private void btnViewCustomers_Click(object sender, RoutedEventArgs e)
