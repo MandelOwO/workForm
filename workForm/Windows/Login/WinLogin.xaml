@@ -7,12 +7,22 @@
         mc:Ignorable="d"
         Title="WinLogin" Height="250" Width="400" ResizeMode="NoResize">
     <Grid>
-        <Label Content="Username:" Height="30" Width="80" Margin="-37,-6,207,126" />
-        <TextBox x:Name="tb_username" TextWrapping="Wrap" Height="30" Margin="106,-6,36,126" Text="user"/>
-        <Label Content="Password:" Height="30" Width="80" Margin="-37,29,207,91" />
+        <Grid Height="150" VerticalAlignment="Top">
+            <StackPanel Width="200" Height="100" HorizontalAlignment="Left" Margin="40,0,0,0">
+                <Label Content="Username:"  FontSize="17" />
+                <Label Content="Password:" FontSize="17"  Margin="0,10,0,0" />
+            </StackPanel>
+            <StackPanel Width="200" Height="100" HorizontalAlignment="Right" Margin="0,0,30,0">
+                <TextBox x:Name="tb_username" TextWrapping="Wrap"  Text="user" FontSize="17"/>
+                <PasswordBox x:Name="tb_password" Margin="0,15,0,0" FontSize="20"/>
+            </StackPanel>
+        </Grid>
+        
+
+        
        <!-- <TextBox x:Name="tb_password" TextWrapping="Wrap" Height="30" Margin="106,29,36,91" Text="123456"/> -->
         <Label x:Name="lab_incorrect" Content="" Width="300" HorizontalContentAlignment="Right" Foreground="#FFFF2222" Panel.ZIndex="-1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,37,0"/>
-        <PasswordBox x:Name="tb_password" Height="30" Margin="106,29,36,91"/>
+
         
         <Button x:Name="btn_login" Content="Log In" Width="74" Height="29" IsDefault="True" Click="btn_login_Click" IsEnabled="True" Panel.ZIndex="2"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" />
         <Button x:Name="btn_register" Content="Register" Width="74" Height="29"  Panel.ZIndex="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,20" />

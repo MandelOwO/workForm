@@ -56,6 +56,5 @@ namespace workForm.Windows.Main
             project = Context.tbProjects.SingleOrDefault(x => x.IDproject == p.IDproject);
             return project;
         }
-
     }
 }
