@@ -30,8 +30,20 @@ namespace workForm.Windows.Main
             InitializeComponent();
             CurrentProject = project;
             CurrentUser = user;
-            if (CurrentProject.IDproject == null)
+
+            if (CurrentProject.Name != null)
+            {
                 Editing = true;
+                tbName.Text = CurrentProject.Name;
+                tbRate.Text = CurrentProject.Rate.ToString();
+                var customer = Context.tbCustomers.SingleOrDefault(x => x.IDcustomer == CurrentProject.idCustomer);
+                cbCustomer.Text = customer.Name;
+                if (CurrentProject.Completed == true)
+                    chkCompeted.IsChecked = true;
+            }
+
+
+
             CurrentProject.idUser = user.IDuser;
 
             LoadCustomers();
@@ -55,24 +67,43 @@ namespace workForm.Windows.Main
             if (!IsValid())
                 return;
 
-            CurrentProject.Name = tbName.Text;
-            CurrentProject.Rate = Convert.ToInt32(tbRate.Text);
-            var customer = Context.tbCustomers.SingleOrDefault(x => x.Name == cbCustomer.Text);
-            if (customer != null)
-                CurrentProject.idCustomer = customer.IDcustomer;
-            if (chkCompeted.IsChecked == true)
-                CurrentProject.Completed = true;
+            try
+            {
+                CurrentProject.Name = tbName.Text;
+                CurrentProject.Rate = Convert.ToInt32(tbRate.Text);
+                var customer = Context.tbCustomers.SingleOrDefault(x => x.Name == cbCustomer.Text);
+                if (customer != null)
+                    CurrentProject.idCustomer = customer.IDcustomer;
+                if (chkCompeted.IsChecked == true)
+                    CurrentProject.Completed = true;
+            }
+            catch (Exception ex)
+            {
+
+                return;
+            }
+
+
+
 
             if (Editing)
             {
-
+                var project = Context.tbProjects.SingleOrDefault(x => x.IDproject == CurrentProject.IDproject);
+                if (project != null)
+                {
+                    project.Name = CurrentProject.Name;
+                    project.Rate = CurrentProject.Rate;
+                    project.idCustomer = CurrentProject.idCustomer;
+                    project.Completed = CurrentProject.Completed;
+                }
             }
             else
             {
                 Context.Add(CurrentProject);
-                Context.SaveChanges();
+
             }
 
+            Context.SaveChanges();
             ClosePage();
 
         }
@@ -86,6 +117,34 @@ namespace workForm.Windows.Main
         private bool IsValid()
         {
             bool isValid = true;
+
+            var project = Context.tbProjects.SingleOrDefault(x => x.Name == tbName.Text);
+            if (project != null && !Editing)
+            {
+                labMessage.Content = "This project already exists ";
+                isValid = false;
+            }
+            if (tbRate.Text == "")
+            {
+                labMessage.Content = "Plese enter a rate ";
+                isValid = false;
+            }
+            int num = -1;
+            if (!int.TryParse(tbRate.Text, out num))
+            {
+                labMessage.Content = "Rate must be a number ";
+                isValid = false;
+            }
+            if (cbCustomer.Text == "")
+            {
+                labMessage.Content = "Plese select a customer ";
+                isValid = false;
+            }
+            if (tbName.Text == "")
+            {
+                labMessage.Content = "Plese enter a project name ";
+                isValid = false;
+            }
 
 
             return isValid;

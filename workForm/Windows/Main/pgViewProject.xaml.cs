@@ -54,5 +54,11 @@ namespace workForm.Windows.Main
             pgEditProject pg = new pgEditProject(new Project(), CurrentUser);
             Frame1.Content = pg;
         }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            pgEditProject pg = new pgEditProject(pageProjectList.GetSelectedProject(), CurrentUser);
+            Frame1.Content = pg;
+        }
     }
 }
