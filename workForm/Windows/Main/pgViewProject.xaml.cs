@@ -21,6 +21,7 @@ namespace workForm.Windows.Main
     /// </summary>
     public partial class pgViewProject : Page
     {
+        private MyContext Context = new MyContext();
         public User CurrentUser { get; set; }
         public pgProjectList pageProjectList { get; set; }
         public Action DisableMainButtons { get; set; }
@@ -59,6 +60,13 @@ namespace workForm.Windows.Main
         {
             pgEditProject pg = new pgEditProject(pageProjectList.GetSelectedProject(), CurrentUser);
             Frame1.Content = pg;
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+
+            pageProjectList.DeleteProject();
+
         }
     }
 }

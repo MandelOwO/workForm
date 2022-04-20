@@ -56,5 +56,34 @@ namespace workForm.Windows.Main
             project = Context.tbProjects.SingleOrDefault(x => x.IDproject == p.IDproject);
             return project;
         }
+
+        public void DeleteProject()
+        {
+            Project project = GetSelectedProject();
+            if (project != null)
+            {
+                var w = Context.tbProjects.SingleOrDefault(x => x.IDproject == project.IDproject);
+                if (w != null)
+                {
+                    var works = Context.tbWorks.Where(x => x.idProject == project.IDproject).ToList<Work>();
+                    string worksString = "";
+                    foreach (var work in works)
+                    {
+                        worksString += work.Descripton + "\t";
+                    }
+                    if (MessageBox.Show("Are you sure that you want to delete " + project.Name + " and all its works?\t" + worksString, "Question", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    {
+                        foreach (Work work in works)
+                        {
+                            Context.tbWorks.Remove(work);
+                        }
+                    }
+                    Context.tbProjects.Remove(w);
+                }
+
+                Context.SaveChanges();
+                lvProjects.Items.Refresh();
+            }
+        }
     }
 }
