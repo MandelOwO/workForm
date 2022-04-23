@@ -5,17 +5,17 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:workForm.Windows.Main"
       mc:Ignorable="d" 
-      Width="500" Height="350"
+       Height="280" Width="480" 
       Title="pgEditProject">
 
-    <Grid Height="300" Margin="20,0,20,0" VerticalAlignment="Bottom">
+    <Grid>
         <Grid Margin="0,0,0,50">
             <StackPanel Width="180" HorizontalAlignment="Left" >
                 <Label Content="Name: " HorizontalAlignment="Right" Margin="0,0,20,0"/>
                 <Label Content="Rate: " Margin="0,10,20,0" HorizontalAlignment="Right"/>
                 <Label Content="Customer: " Margin="0,10,20,0" HorizontalAlignment="Right"/>
             </StackPanel>
-            <StackPanel Width="280" HorizontalAlignment="Right">
+            <StackPanel Width="300" HorizontalAlignment="Right">
                 <TextBox x:Name="tbName" FontSize="15" />
                 <TextBox x:Name="tbRate" FontSize="15" Margin="0,10,0,0"/>
                 <ComboBox x:Name="cbCustomer" FontSize="15" Margin="0,10,0,0"/>

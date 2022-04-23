@@ -24,14 +24,14 @@
                 <TextBox x:Name="tbStreet" FontSize="15" Margin="0,10,0,0"/>
                 <TextBox x:Name="tbZip" FontSize="15" Margin="0,10,0,0"/>
                 <TextBox x:Name="tbCin" FontSize="15" Margin="0,10,0,0"/>
-                <TextBox x:Name="tTin" FontSize="15" Margin="0,10,0,0"/>
+                <TextBox x:Name="tbTin" FontSize="15" Margin="0,10,0,0"/>
             </StackPanel>
         </Grid>
         <Grid Height="50" VerticalAlignment="Bottom">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,10">
                 <Label x:Name="labMessage" Foreground="Red" />
-                <Button x:Name="btnCancel" Content="Cancel" Width="50" Margin="0,0,10,0" IsCancel="True" Click="btnCancel_Click"/>
-                <Button x:Name="btnOk" Content="OK" Width="50" IsDefault="True" Click="btnOk_Click"/>
+                <Button x:Name="btnCancel" Content="Cancel" Width="50" Margin="0,0,10,0" IsCancel="True" Click="btnCancel_Click" />
+                <Button x:Name="btnOk" Content="OK" Width="50" IsDefault="True" Click="btnOk_Click" />
             </StackPanel>
         </Grid>
     </Grid>

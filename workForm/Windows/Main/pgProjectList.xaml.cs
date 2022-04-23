@@ -43,8 +43,6 @@ namespace workForm.Windows.Main
                 ProjectWithCustomerName project = new ProjectWithCustomerName(item.IDproject, item.Name, item.Rate, customer.Name, item.Completed);
                 _projects.Add(project);
             }
-
-
         }
 
         public Project GetSelectedProject()
@@ -57,45 +55,56 @@ namespace workForm.Windows.Main
             return project;
         }
 
-        public void DeleteProject()
+        public void DeleteSelectedProject()
         {
             Project project = GetSelectedProject();
-            if (project != null)
+            if (project == null) return;
+            var works = Context.tbWorks.Where(x => x.idProject == project.IDproject).ToList<Work>();
+
+            string worksString = GetStringOfProjectWorks(works);
+
+            if (MessageBox.Show("Are you sure that you want to delete " + project.Name + " and all its works?\n" + worksString, "Question", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                var w = Context.tbProjects.SingleOrDefault(x => x.IDproject == project.IDproject);
-                if (w != null)
-                {
-                    var works = Context.tbWorks.Where(x => x.idProject == project.IDproject).ToList<Work>();
-                    string worksString = "";
-                    foreach (var work in works)
-                    {
-                        worksString += work.Descripton + "\n";
-                    }
-                    if (MessageBox.Show("Are you sure that you want to delete " + project.Name + " and all its works?\n" + worksString, "Question", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                    {
-                        foreach (Work work in works)
-                        {
-                            Context.tbWorks.Remove(work);
-                        }
-                        Context.tbProjects.Remove(w);
-                        try
-                        {
-
-                            Context.SaveChanges();
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message, ex.ToString());
-
-                        }
-
-                    }
-
-                }
-
-
-                lvProjects.Items.Refresh();
+                DeleteProject(project);
             }
+
+            lvProjects.Items.Refresh();
+        }
+
+        public void DeleteProject(Project project)
+        {
+            var w = Context.tbProjects.SingleOrDefault(x => x.IDproject == project.IDproject);
+            //  if (w != null) return;
+
+            var works = Context.tbWorks.Where(x => x.idProject == project.IDproject).ToList<Work>();
+            foreach (Work work in works)
+            {
+                Context.tbWorks.Remove(work);
+            }
+            Context.tbProjects.Remove(w);
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.ToString());
+
+            }
+
+        }
+
+
+
+        private string GetStringOfProjectWorks(List<Work> works)
+        {
+
+            string worksString = "";
+            foreach (var work in works)
+            {
+                worksString += work.Descripton + "\n";
+            }
+            return worksString;
         }
     }
 }

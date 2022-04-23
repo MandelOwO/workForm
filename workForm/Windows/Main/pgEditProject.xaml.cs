@@ -33,22 +33,23 @@ namespace workForm.Windows.Main
 
             if (CurrentProject.Name != null)
             {
-                Editing = true;
-                tbName.Text = CurrentProject.Name;
-                tbRate.Text = CurrentProject.Rate.ToString();
-                var customer = Context.tbCustomers.SingleOrDefault(x => x.IDcustomer == CurrentProject.idCustomer);
-                cbCustomer.Text = customer.Name;
-                if (CurrentProject.Completed == true)
-                    chkCompeted.IsChecked = true;
+                LoadDataIntoBoxes();
             }
-
-
 
             CurrentProject.idUser = user.IDuser;
 
             LoadCustomers();
         }
-
+        public void LoadDataIntoBoxes()
+        {
+            Editing = true;
+            tbName.Text = CurrentProject.Name;
+            tbRate.Text = CurrentProject.Rate.ToString();
+            var customer = Context.tbCustomers.SingleOrDefault(x => x.IDcustomer == CurrentProject.idCustomer);
+            cbCustomer.Text = customer.Name;
+            if (CurrentProject.Completed == true)
+                chkCompeted.IsChecked = true;
+        }
         private void LoadCustomers()
         {
             var data = Context.tbCustomers.ToList<Customer>();

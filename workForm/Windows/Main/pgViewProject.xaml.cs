@@ -65,7 +65,7 @@ namespace workForm.Windows.Main
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
 
-            pageProjectList.DeleteProject();
+            pageProjectList.DeleteSelectedProject();
 
         }
     }
