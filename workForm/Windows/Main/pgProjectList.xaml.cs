@@ -69,19 +69,31 @@ namespace workForm.Windows.Main
                     string worksString = "";
                     foreach (var work in works)
                     {
-                        worksString += work.Descripton + "\t";
+                        worksString += work.Descripton + "\n";
                     }
-                    if (MessageBox.Show("Are you sure that you want to delete " + project.Name + " and all its works?\t" + worksString, "Question", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    if (MessageBox.Show("Are you sure that you want to delete " + project.Name + " and all its works?\n" + worksString, "Question", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
                         foreach (Work work in works)
                         {
                             Context.tbWorks.Remove(work);
                         }
+                        Context.tbProjects.Remove(w);
+                        try
+                        {
+
+                            Context.SaveChanges();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, ex.ToString());
+
+                        }
+
                     }
-                    Context.tbProjects.Remove(w);
+
                 }
 
-                Context.SaveChanges();
+
                 lvProjects.Items.Refresh();
             }
         }

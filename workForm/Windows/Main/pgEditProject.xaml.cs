@@ -102,8 +102,15 @@ namespace workForm.Windows.Main
                 Context.Add(CurrentProject);
 
             }
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
-            Context.SaveChanges();
             ClosePage();
 
         }

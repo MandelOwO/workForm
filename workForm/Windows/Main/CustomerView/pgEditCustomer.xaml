@@ -1,30 +1,35 @@
-﻿<Page x:Class="workForm.Windows.Main.pgEditProject"
+﻿<Page x:Class="workForm.Windows.Main.CustomerView.pgEditCustomer"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:workForm.Windows.Main"
+      xmlns:local="clr-namespace:workForm.Windows.Main.CustomerView"
       mc:Ignorable="d" 
-      Width="500" Height="350"
-      Title="pgEditProject">
+       Height="280" Width="480" 
+      Title="pgEditCustomer">
 
-    <Grid Height="300" Margin="20,0,20,0" VerticalAlignment="Bottom">
+    <Grid>
         <Grid Margin="0,0,0,50">
             <StackPanel Width="180" HorizontalAlignment="Left" >
                 <Label Content="Name: " HorizontalAlignment="Right" Margin="0,0,20,0"/>
-                <Label Content="Rate: " Margin="0,10,20,0" HorizontalAlignment="Right"/>
-                <Label Content="Customer: " Margin="0,10,20,0" HorizontalAlignment="Right"/>
+                <Label Content="City: " Margin="0,10,20,0" HorizontalAlignment="Right"/>
+                <Label Content="Street: " Margin="0,10,20,0" HorizontalAlignment="Right"/>
+                <Label Content="ZIP: " Margin="0,10,20,0" HorizontalAlignment="Right"/>
+                <Label Content="CIN: " Margin="0,10,20,0" HorizontalAlignment="Right"/>
+                <Label Content="TIN: " Margin="0,10,20,0" HorizontalAlignment="Right"/>
             </StackPanel>
-            <StackPanel Width="280" HorizontalAlignment="Right">
+            <StackPanel Width="300" HorizontalAlignment="Right">
                 <TextBox x:Name="tbName" FontSize="15" />
-                <TextBox x:Name="tbRate" FontSize="15" Margin="0,10,0,0"/>
-                <ComboBox x:Name="cbCustomer" FontSize="15" Margin="0,10,0,0"/>
+                <TextBox x:Name="tbCity" FontSize="15" Margin="0,10,0,0"/>
+                <TextBox x:Name="tbStreet" FontSize="15" Margin="0,10,0,0"/>
+                <TextBox x:Name="tbZip" FontSize="15" Margin="0,10,0,0"/>
+                <TextBox x:Name="tbCin" FontSize="15" Margin="0,10,0,0"/>
+                <TextBox x:Name="tTin" FontSize="15" Margin="0,10,0,0"/>
             </StackPanel>
         </Grid>
         <Grid Height="50" VerticalAlignment="Bottom">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,10">
                 <Label x:Name="labMessage" Foreground="Red" />
-                <CheckBox x:Name="chkCompeted" Content="Completed" Margin="0,6,10,0" />
                 <Button x:Name="btnCancel" Content="Cancel" Width="50" Margin="0,0,10,0" IsCancel="True" Click="btnCancel_Click"/>
                 <Button x:Name="btnOk" Content="OK" Width="50" IsDefault="True" Click="btnOk_Click"/>
             </StackPanel>

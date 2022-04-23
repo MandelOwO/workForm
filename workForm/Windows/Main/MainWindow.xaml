@@ -14,7 +14,7 @@
         <Label x:Name="lab_user" Content="" Height="35"  Width="300"  FontSize="18" VerticalAlignment="Top" Margin="445,20,55,0" Grid.ColumnSpan="3" />
         <Frame x:Name="Frame1" Height="350" Width="650" HorizontalAlignment="Right" VerticalAlignment="Bottom" NavigationUIVisibility="Hidden" Grid.ColumnSpan="3"/>
         <ComboBox x:Name="cb_projectsList" Width="250" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,35,0,0" SelectionChanged="cb_projectsList_SelectionChanged"/>
-        <Label Content="Project: " Height="25" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" />
+        <Label Content="Active projects: " Height="25" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" />
         <Button x:Name="btnLogOut" Content="Log Out" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,20,0" Click="btn_logOut_Click" Width="55"/>
         <StackPanel Width="110" Height="340" HorizontalAlignment="Left" Margin="10,84,0,10">
             <Button x:Name="btnViewProjects" Content="View Projects" Margin="0,10,0,0" Click="btnViewProjects_Click" />

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using workForm.Windows.Main;
+using workForm.Windows.Main.CustomerView;
 
 namespace workForm
 {
@@ -29,7 +30,6 @@ namespace workForm
             InitializeComponent();
             CurrentUser = u;
             lab_user.Content = u.Name;
-
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -39,13 +39,11 @@ namespace workForm
 
         public void LoadProjects(Tables.User usr)
         {
-
-            var projects = context.tbProjects.Where(u => u.idUser == usr.IDuser).AsQueryable().ToList<Tables.Project>();
+            var projects = context.tbProjects.Where(u => u.idUser == usr.IDuser && u.Completed == false).AsQueryable().ToList<Tables.Project>();
 
             cb_projectsList.ItemsSource = projects;
             cb_projectsList.DisplayMemberPath = "Name";
             cb_projectsList.SelectedValue = "IDproject";
-
 
         }
 

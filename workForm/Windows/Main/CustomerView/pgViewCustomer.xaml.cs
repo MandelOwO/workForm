@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace workForm.Windows.Main
+namespace workForm.Windows.Main.CustomerView
 {
     /// <summary>
     /// Interaction logic for pgViewCustomer.xaml
