@@ -89,8 +89,16 @@ namespace workForm.Windows.Main
             string t = cb.Text.ToString();
             string d = dp.ToString();
             d = d.Substring(0, d.Length - 8);
+            try
+            {
+                dt = DateTime.Parse(d + " " + t);
+            }
+            catch (Exception ex)
+            {
+                labMessage.Content = "Time is not in correct format";
+                return DateTime.MinValue;
+            }
 
-            dt = DateTime.Parse(d + " " + t);
 
             return dt;
         }
@@ -169,6 +177,9 @@ namespace workForm.Windows.Main
             {
                 Work.Start = getTime(cbStart, dtpStart);
                 Work.End = getTime(cbEnd, dtpEnd);
+
+                if (Work.Start == DateTime.MinValue || Work.End == DateTime.MinValue) return;
+
             }
 
 

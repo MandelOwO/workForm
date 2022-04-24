@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using workForm.tools;
 using workForm.Windows.Main;
 using workForm.Windows.Main.CustomerView;
 
@@ -73,6 +75,7 @@ namespace workForm
         public void EnableButtons()
         {
 
+
             btnViewProjects.IsEnabled = true;
             btnViewCustomers.IsEnabled = true;
         }
@@ -85,6 +88,45 @@ namespace workForm
         private void btnViewCustomers_Click(object sender, RoutedEventArgs e)
         {
             Frame1.Content = new pgViewCustomer();
+        }
+
+        private void btnDetailedReport_Click(object sender, RoutedEventArgs e)
+        {
+            string file = SavePrompt();
+            if (string.IsNullOrWhiteSpace(file)) return;
+
+            Reporter r = new Reporter(CurrentUser, file);
+            r.GenerateDetailedReport();
+            MessageBox.Show("Detailed report was created", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void btnSummaryReport_Click(object sender, RoutedEventArgs e)
+        {
+            string file = SavePrompt();
+            if (string.IsNullOrWhiteSpace(file)) return;
+
+            Reporter r = new Reporter(CurrentUser, file);
+            r.GenerateSummaryReport();
+            MessageBox.Show("Summary report was created", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private string SavePrompt()
+        {
+            SaveFileDialog save = new SaveFileDialog();
+            save.InitialDirectory = @"C:\";
+            save.Filter = "Html file (*.html)|*.html";
+            save.RestoreDirectory = true;
+            save.Title = "Select save location file name";
+            save.DefaultExt = "html";
+            save.AddExtension = true;
+
+            save.ShowDialog();
+            if (save.FileName != null)
+            {
+                return save.FileName;
+            }
+            else
+                return null;
         }
     }
 }
