@@ -21,6 +21,7 @@
             <Button x:Name="btnViewCustomers" Content="View Customers" Margin="0,10,0,0" Click="btnViewCustomers_Click" />
             <Button x:Name="btnDetailedReport" Content="Detailed Report" Margin="0,10,0,0" Click="btnDetailedReport_Click" />
             <Button x:Name="btnSummaryReport" Content="Summary Report" Margin="0,10,0,0" Click="btnSummaryReport_Click" />
+            <Button x:Name="btnCreateReport" Content="Create Report" Margin="0,10,0,0" Click="btnSummaryReport_Click" />
         </StackPanel>
     </Grid>
 </Window>

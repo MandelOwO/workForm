@@ -30,11 +30,18 @@ namespace workForm.Windows.Main
             InitializeComponent();
             CurrentProject = project;
             CurrentUser = user;
-
-            if (CurrentProject.Name != null)
+            try
             {
-                LoadDataIntoBoxes();
+                if (CurrentProject.Name != null)
+                {
+                    LoadDataIntoBoxes();
+                }
             }
+            catch (Exception ex)
+            {
+
+            }
+
 
             CurrentProject.idUser = user.IDuser;
 
