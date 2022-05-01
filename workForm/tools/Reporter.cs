@@ -17,15 +17,21 @@ namespace workForm.tools
         public List<Customer> CustomerList { get; set; } = new List<Customer>();
         public List<Project> ProjectList { get; set; } = new List<Project>();
         public List<Work> WorkList { get; set; } = new List<Work>();
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
-        public Reporter(User usr, string file)
+
+        public Reporter(User usr, string file, DateTime startDate, DateTime endDate)
         {
             CurrentUser = usr;
             File = new FileInfo(file);
+            StartDate = startDate;
+            EndDate = endDate;
             LoadData();
 
 
         }
+
         private class SummedWork
         {
             public SummedWork(string description, double duration, int idProject)
@@ -34,6 +40,7 @@ namespace workForm.tools
                 Duration = duration;
                 this.idProject = idProject;
             }
+
             public string Description { get; set; }
             public double Duration { get; set; }
             public int idProject { get; set; }
@@ -127,7 +134,7 @@ namespace workForm.tools
         {
             var projects = Context.tbProjects.Where(x => x.idUser == CurrentUser.IDuser).ToList<Project>();
             var customers = Context.tbCustomers.ToList<Customer>();
-            var works = Context.tbWorks.ToList<Work>();
+            var works = Context.tbWorks.Where(x => x.Start > StartDate && x.End < EndDate).ToList<Work>();
 
             List<Customer> customerList = new List<Customer>();
 

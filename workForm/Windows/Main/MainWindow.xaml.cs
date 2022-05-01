@@ -90,43 +90,9 @@ namespace workForm
             Frame1.Content = new pgViewCustomer();
         }
 
-        private void btnDetailedReport_Click(object sender, RoutedEventArgs e)
+        private void btnCreateReport_Click(object sender, RoutedEventArgs e)
         {
-            string file = SavePrompt();
-            if (string.IsNullOrWhiteSpace(file)) return;
-
-            Reporter r = new Reporter(CurrentUser, file);
-            r.GenerateDetailedReport();
-            MessageBox.Show("Detailed report was created", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        private void btnSummaryReport_Click(object sender, RoutedEventArgs e)
-        {
-            string file = SavePrompt();
-            if (string.IsNullOrWhiteSpace(file)) return;
-
-            Reporter r = new Reporter(CurrentUser, file);
-            r.GenerateSummaryReport();
-            MessageBox.Show("Summary report was created", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        private string SavePrompt()
-        {
-            SaveFileDialog save = new SaveFileDialog();
-            save.InitialDirectory = @"C:\";
-            save.Filter = "Html file (*.html)|*.html";
-            save.RestoreDirectory = true;
-            save.Title = "Select save location file name";
-            save.DefaultExt = "html";
-            save.AddExtension = true;
-
-            save.ShowDialog();
-            if (save.FileName != null)
-            {
-                return save.FileName;
-            }
-            else
-                return null;
+            Frame1.Content = new pgReport(CurrentUser);
         }
     }
 }

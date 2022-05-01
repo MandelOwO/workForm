@@ -50,12 +50,10 @@ namespace workForm.Windows.Login
             try
             {
                 usr = context.tbUsers.SingleOrDefault(u => u.Username == usernameInput) as Tables.User;
-                // pass = context.tbUsers.SingleOrDefault(p => p.Password == passwordInput) as Tables.User;
 
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show("Can not connect to the database\nError:\n" + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
